@@ -2,15 +2,55 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Maze</title>
+    <style>
+        canvas {
+            border: 1px solid black;
+        }
+    </style>
 </head>
 <body>
-<button id="start" onclick="start()">Start</button>
-<script>
-function start() {
-    stop()
-}
-</script>
+    <canvas id="mazeCanvas" width="400" height="400"></canvas>
+    <script>
+        const canvas = document.getElementById('mazeCanvas');
+        const ctx = canvas.getContext('2d');
+        const cellSize = 40; // Größe jeder Zelle
+        const maze = [
+            [1,1,1,1,1,1,1,1,1,1],
+            [1,0,0,0,0,0,0,0,0,1],
+            [1,0,1,1,0,1,1,1,0,1],
+            [1,0,1,0,0,0,0,1,0,1],
+            [1,0,1,0,1,1,0,1,0,1],
+            [1,0,0,0,1,0,0,1,0,1],
+            [1,1,1,0,1,0,1,1,0,1],
+            [1,0,0,0,0,0,0,0,0,1],
+            [1,0,1,1,1,1,1,1,0,1],
+            [1,1,1,1,1,1,1,1,1,1]
+        ];
 
+        function drawMaze() {
+            for (let y = 0; y < maze.length; y++) {
+                for (let x = 0; x < maze[y].length; x++) {
+                    if (maze[y][x] === 1) {
+                        ctx.fillStyle = 'black'; // Wand
+                    } else {
+                        ctx.fillStyle = 'white'; // Weg
+                    }
+                    ctx.fillRect(x * cellSize, y * cellSize, cellSize, cellSize);
+                }
+            }
+        }
+
+        // Funktion zum Prüfen, ob eine Position eine Wand berührt
+        function isWall(x, y) {
+            if (x < 0 || x >= maze[0].length || y < 0 || y >= maze.length) {
+                return true; // Außerhalb des Mazes ist Wand
+            }
+            return maze[y][x] === 1;
+        }
+
+        // Zeichne das Maze beim Laden
+        drawMaze();
+    </script>
 </body>
 </html>
